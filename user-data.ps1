@@ -17,11 +17,22 @@ Test-Path "$HOME\nginx\$_nginxVersion\nginx.exe"
 
 
 #Clone this repo
-git clone https://github.com/shyguyCreate/ec2-flask "$HOME"
+git clone https://github.com/shyguyCreate/ec2-flask "$HOME\ec2-flask"
 
 #Create and activate virtual environment
 python -m venv "$HOME\ec2-flask\.venv"
 "$HOME\ec2-flask\.venv\bin\Activate.ps1"
 
 #Install program dependencies
-pip install -r requirements.txt
+pip install -r "$HOME\ec2-flask\requirements.txt"
+
+
+#Remove default nginx config
+Remove-Item C:\nginx\conf\sites-enabled\* -Force
+
+#Set nginx config
+Copy-Item "$HOME/ec2-flask/ec2-flask.conf" C:\nginx\conf\sites-available
+New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path C:\nginx\conf\sites-enabled -ItemType SymbolicLink -Force
+
+#Reload nginx
+nginx -s reload
