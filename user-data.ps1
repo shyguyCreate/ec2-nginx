@@ -32,7 +32,6 @@ Remove-Item C:\nginx\conf\sites-enabled\* -Force
 
 #Set nginx config
 Copy-Item "$HOME\ec2-flask\nginx\ec2-flask.conf" C:\nginx\conf\sites-available
-(Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$HOME", "$HOME") > C:\nginx\conf\sites-available\ec2-flask.conf
 New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path C:\nginx\conf\sites-enabled -ItemType SymbolicLink -Force
 
 #Reload nginx
