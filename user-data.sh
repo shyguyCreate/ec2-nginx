@@ -37,7 +37,7 @@ sudo ln -sf /etc/nginx/sites-available/ec2-flask.conf /etc/nginx/sites-enabled
 
 #Copy index.html and image to default location
 sudo cp "$HOME/ec2-flask/nginx/index.html" /var/www/html
-sudo cp "$HOME/ec2-flask/static/equipo2.webp" /var/www/html
+sudo cp "$HOME/ec2-flask/nginx/equipo2.webp" /var/www/html
 
 #Reload nginx
 sudo systemctl restart nginx
