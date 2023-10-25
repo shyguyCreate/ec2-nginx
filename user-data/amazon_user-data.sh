@@ -32,7 +32,7 @@ pip install -r "$HOME/ec2-flask/requirements.txt"
 #Nginx configuration variables
 default_conf_dir="/etc/nginx/conf.d"
 default_html_dir="/usr/share/nginx/html"
-repo_html_dir="$HOME/ec2-flask/nginx"
+repo_html_dir="$HOME/ec2-flask/html"
 
 #Remove default nginx config
 sudo rm "$default_conf_dir"/*

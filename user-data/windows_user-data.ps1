@@ -30,7 +30,7 @@ pip install -r "$HOME\ec2-flask\requirements.txt"
 #Nginx configuration variables
 $default_conf_dir = "C:\nginx\conf\sites-enabled"
 $default_html_dir = "C:\nginx\conf\sites-enabled"
-$repo_html_dir = "$HOME\ec2-flask\nginx"
+$repo_html_dir = "$HOME\ec2-flask\html"
 
 #Remove default nginx config
 Remove-Item $default_conf_dir\* -Force
