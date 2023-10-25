@@ -28,12 +28,21 @@ pip install -r "$HOME\ec2-flask\requirements.txt"
 
 
 #Remove default nginx config
-Remove-Item C:\nginx\conf\sites-enabled\* -Force
+$default_conf_dir = "C:\nginx\conf\sites-enabled"
+Remove-Item $default_conf_dir\* -Force
 
 #Set nginx config
 Copy-Item "$HOME\ec2-flask\ec2-flask.conf" C:\nginx\conf\sites-available
 (Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$HOME", "$HOME") > C:\nginx\conf\sites-available\ec2-flask.conf
-New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path C:\nginx\conf\sites-enabled -ItemType SymbolicLink -Force
+New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path "$default_conf_dir" -ItemType SymbolicLink -Force
+
+
+#Copy index.html and image to default location
+$default_html_dir = "C:\nginx\conf\sites-enabled"
+(Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$default_html_dir", "$default_html_dir") > C:\nginx\conf\sites-available\ec2-flask.conf
+Copy-Item "$HOME\ec2-flask\nginx\index.html" $default_html_dir
+Copy-Item "$HOME\ec2-flask\nginx/equipo2.webp" $default_html_dir
+
 
 #Reload nginx
 nginx -s reload
