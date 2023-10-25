@@ -30,20 +30,23 @@ source "$HOME/ec2-flask/.venv/bin/activate"
 #Install program dependencies
 pip install -r "$HOME/ec2-flask/requirements.txt"
 
-#Remove default nginx config
+#Nginx configuration variables
 default_conf_dir="/etc/nginx/sites-enabled"
+default_html_dir="/var/www/html"
+repo_html_dir="$HOME/ec2-flask/nginx"
+
+#Remove default nginx config
 sudo rm "$default_conf_dir"/*
+
+#Copy index.html and image to default location
+sudo cp "$repo_html_dir/index.html" "$default_html_dir"
+sudo cp "$repo_html_dir/equipo2.webp" "$default_html_dir"
 
 #Set nginx config
 sudo cp "$HOME/ec2-flask/ec2-flask.conf" /etc/nginx/sites-available
-sudo sed -i "s,\$HOME,$HOME,g" /etc/nginx/sites-available/ec2-flask.conf
-sudo ln -sf /etc/nginx/sites-available/ec2-flask.conf "$default_conf_dir"
-
-#Copy index.html and image to default location
-default_html_dir="/var/www/html"
+sudo sed -i "s,\$repo_html_dir,$repo_html_dir,g" /etc/nginx/sites-available/ec2-flask.conf
 sudo sed -i "s,\$default_html_dir,$default_html_dir,g" /etc/nginx/sites-available/ec2-flask.conf
-sudo cp "$HOME/ec2-flask/nginx/index.html" "$default_html_dir"
-sudo cp "$HOME/ec2-flask/nginx/equipo2.webp" "$default_html_dir"
+sudo ln -sf /etc/nginx/sites-available/ec2-flask.conf "$default_conf_dir"
 
 #Reload nginx
 sudo systemctl restart nginx

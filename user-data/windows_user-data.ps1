@@ -27,21 +27,23 @@ python -m venv "$HOME\ec2-flask\.venv"
 pip install -r "$HOME\ec2-flask\requirements.txt"
 
 
-#Remove default nginx config
+#Nginx configuration variables
 $default_conf_dir = "C:\nginx\conf\sites-enabled"
+$default_html_dir = "C:\nginx\conf\sites-enabled"
+$repo_html_dir = "$HOME\ec2-flask\nginx"
+
+#Remove default nginx config
 Remove-Item $default_conf_dir\* -Force
+
+#Copy index.html and image to default location
+Copy-Item "$repo_html_dir\index.html" $default_html_dir
+Copy-Item "$repo_html_dir\equipo2.webp" $default_html_dir
 
 #Set nginx config
 Copy-Item "$HOME\ec2-flask\ec2-flask.conf" C:\nginx\conf\sites-available
-(Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$HOME", "$HOME") > C:\nginx\conf\sites-available\ec2-flask.conf
-New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path "$default_conf_dir" -ItemType SymbolicLink -Force
-
-
-#Copy index.html and image to default location
-$default_html_dir = "C:\nginx\conf\sites-enabled"
+(Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$repo_html_dir", "$repo_html_dir") > C:\nginx\conf\sites-available\ec2-flask.conf
 (Get-Content C:\nginx\conf\sites-available\ec2-flask.conf).Replace("`$default_html_dir", "$default_html_dir") > C:\nginx\conf\sites-available\ec2-flask.conf
-Copy-Item "$HOME\ec2-flask\nginx\index.html" $default_html_dir
-Copy-Item "$HOME\ec2-flask\nginx/equipo2.webp" $default_html_dir
+New-Item -Value C:\nginx\conf\sites-available\ec2-flask.conf -Path "$default_conf_dir" -ItemType SymbolicLink -Force
 
 
 #Reload nginx
