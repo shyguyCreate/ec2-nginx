@@ -11,6 +11,9 @@ sudo apt -y install nginx
 #Enable ssh protocol in firewall
 sudo ufw allow ssh
 
+#Add www-data to ubuntu user
+sudo gpasswd -a www-data ubuntu
+
 #Enable/start ssh
 sudo systemctl enable --now ssh
 
