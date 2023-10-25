@@ -34,7 +34,8 @@ pip install -r "$HOME/ec2-flask/requirements.txt"
 sudo rm /etc/nginx/sites-enabled/*
 
 #Set nginx config
-sudo cp "$HOME/ec2-flask/nginx/ec2-flask.conf" /etc/nginx/sites-available
+sudo cp "$HOME/ec2-flask/ec2-flask.conf" /etc/nginx/sites-available
+sudo sed -i "s,\$HOME,$HOME,g" /etc/nginx/sites-available/ec2-flask.conf
 sudo ln -sf /etc/nginx/sites-available/ec2-flask.conf /etc/nginx/sites-enabled
 
 #Copy index.html and image to default location
